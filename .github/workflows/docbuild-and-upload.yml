@@ -128,7 +128,9 @@ jobs:
       run: |
         pixi run \
           --environment docs-and-web \
-          ci-build-documentation \
+          python doc/make.py \
+          --warnings-are-errors \
+          --num-jobs=1 \
           html
 
     - name: Build the interactive terminal
@@ -142,7 +144,9 @@ jobs:
       run: |
         pixi run \
           --environment docs-and-web \
-          ci-build-documentation \
+          python doc/make.py \
+          --warnings-are-errors \
+          --num-jobs=1 \
           zip_html
 
     - name: Install ssh key
