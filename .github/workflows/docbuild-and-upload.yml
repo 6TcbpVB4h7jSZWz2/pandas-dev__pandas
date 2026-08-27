@@ -82,6 +82,12 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Restore version context for an isolated source snapshot
+      run: |
+        if [[ -z "$(git tag --list)" ]]; then
+          git tag v3.1.0.dev0
+        fi
+
     - name: Create virtual environment with Pixi
       uses: ./.github/actions/setup-pixi
       with:
@@ -128,9 +134,7 @@ jobs:
       run: |
         pixi run \
           --environment docs-and-web \
-          python doc/make.py \
-          --warnings-are-errors \
-          --num-jobs=1 \
+          ci-build-documentation \
           html
 
     - name: Build the interactive terminal
@@ -144,9 +148,7 @@ jobs:
       run: |
         pixi run \
           --environment docs-and-web \
-          python doc/make.py \
-          --warnings-are-errors \
-          --num-jobs=1 \
+          ci-build-documentation \
           zip_html
 
     - name: Install ssh key
